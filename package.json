@@ -1,0 +1,35 @@
+{
+  "name": "redis_benchmark",
+  "version": "1.0.0",
+  "description": "A reimplementation of the C Redis benchmark in JS",
+  "main": "app.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha -w --compilers js:babel-core/register",
+    "start": "./node_modules/.bin/babel-node app.js",
+    "lint": "./node_modules/.bin/eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rjnienaber/redis-benchmark.git"
+  },
+  "keywords": [
+    "redis",
+    "benchmark"
+  ],
+  "author": "Richard Nienaber",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rjnienaber/redis-benchmark/issues"
+  },
+  "homepage": "https://github.com/rjnienaber/redis-benchmark#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "eslint": "^2.9.0",
+    "mocha": "^2.4.5"
+  },
+  "dependencies": {
+    "babel-cli": "^6.8.0",
+    "babel-preset-es2015": "^6.6.0"
+  },
+  "engine": "node >= 6.0.0"
+}
