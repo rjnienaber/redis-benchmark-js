@@ -3,9 +3,10 @@
 
 import Connection from './lib/connection.js';
 import ResponseParser from './lib/response_parser.js';
+import CommandWriter from './lib/command_writer.js';
 
 let conn = new Connection('127.0.0.1', 6379, new ResponseParser());
-conn.start('GET TEST');
+conn.start(new CommandWriter().write('GET TEST'));
 
 process.stdin.on('data', text => {
   var buffer = new Buffer(text, 'utf-8');
