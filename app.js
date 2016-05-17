@@ -4,10 +4,42 @@
 import Connection from './lib/connection.js';
 import ResponseParser from './lib/response_parser.js';
 import CommandWriter from './lib/command_writer.js';
+import StopWatch from './lib/stopwatch.js';
 
-let conn = new Connection('127.0.0.1', 6379, new ResponseParser());
-conn.start(new CommandWriter().write('GET TEST'));
+const parser = new ResponseParser();
+const writer = new CommandWriter();
+const conn = new Connection('127.0.0.1', 6379);
+const stopwatch = new StopWatch();
 
+const totalRequests = 1000000;
+
+let counter = 0;
+const onData = (d) => {
+  // console.log(parser.parse(d))
+  counter++;
+  if (counter == totalRequests) {
+    const duration = stopwatch.stop();
+    console.log("====== PING_INLINE ======");
+    console.log(`  ${totalRequests} requests completed in ${duration} seconds`);    
+    console.log("  1 parallel clients");
+    console.log("  3 bytes payload");
+    console.log("  keep alive: 1");
+    console.log("");
+    console.log(`${(totalRequests / duration).toFixed(2)} requests per second`);
+
+    
+    process.exit();
+  }
+    
+  conn.send(writer.write('PING'));
+}
+
+conn.receive(onData);
+
+stopwatch.start();
+conn.send(writer.write('PING'));
+
+//wait for key
 process.stdin.on('data', text => {
   var buffer = new Buffer(text, 'utf-8');
   var lastCharacter = buffer[buffer.length - 1];
