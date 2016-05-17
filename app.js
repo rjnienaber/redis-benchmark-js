@@ -3,15 +3,16 @@
 
 import Connection from './lib/connection.js';
 import ResponseParser from './lib/response_parser.js';
-import CommandWriter from './lib/command_writer.js';
+import convertToBuffer from './lib/convert_to_buffer.js';
 import StopWatch from './lib/stopwatch.js';
 
 const parser = new ResponseParser();
-const writer = new CommandWriter();
 const conn = new Connection('127.0.0.1', 6379);
 const stopwatch = new StopWatch();
 
 const totalRequests = 1000000;
+
+const command = convertToBuffer('PING');
 
 let counter = 0;
 const onData = (d) => {
@@ -26,18 +27,17 @@ const onData = (d) => {
     console.log("  keep alive: 1");
     console.log("");
     console.log(`${(totalRequests / duration).toFixed(2)} requests per second`);
-
     
     process.exit();
   }
     
-  conn.send(writer.write('PING'));
+  conn.send(command);
 }
 
 conn.receive(onData);
 
 stopwatch.start();
-conn.send(writer.write('PING'));
+conn.send(command);
 
 //wait for key
 process.stdin.on('data', text => {
