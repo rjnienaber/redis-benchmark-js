@@ -1,29 +1,31 @@
 #!/usr/bin/env ./node_modules/.bin/babel-node
 'use strict';
 
-const p = new Promise(() => 42);
 import Benchmark from './lib/benchmark.js';
+import Formatter from './lib/formatter.js';
 
 const options = {
   host: '127.0.0.1',
   port: 6379,
   command: 'PING',
-  requests: 100000,
+  requests: 10000,
   clients: 1
 };
 
+const formatter = new Formatter(options);
 const benchmark = new Benchmark(options);
-benchmark.run(stopwatch => {
-  console.log('====== PING_INLINE ======');
-  console.log(`  ${options.requests} requests completed in ${stopwatch.duration()} seconds`);    
-  console.log(`  ${options.clients} concurrent clients`);
-  console.log('  3 bytes payload');
-  console.log('  keep alive: 1');
-  console.log('');
-  console.log(`${(options.requests / stopwatch.duration()).toFixed(2)} requests per second`);
 
-  process.exit(0);
-})
+function handleException(reason) {
+  console.log(`Exception: ${reason}`);
+  process.exit(1);
+}
+
+function handleSuccess(stopwatch) {
+  formatter.print(stopwatch);
+  process.exit(0);  
+}
+
+benchmark.run(handleSuccess, handleException);
 
 //wait for key
 process.stdin.on('data', buffer => {
