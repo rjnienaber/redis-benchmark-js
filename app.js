@@ -3,15 +3,9 @@
 
 import Benchmark from './lib/benchmark.js';
 import Formatter from './lib/formatter.js';
+import processOptions from './lib/options.js'
 
-const options = {
-  host: '127.0.0.1',
-  port: 6379,
-  command: 'PING',
-  requests: 10000,
-  clients: 1
-};
-
+const options = processOptions();
 const formatter = new Formatter(options);
 const benchmark = new Benchmark(options);
 
