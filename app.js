@@ -3,7 +3,7 @@
 
 import Benchmark from './lib/benchmark.js';
 import Formatter from './lib/formatter.js';
-import processOptions from './lib/options.js'
+import processOptions from './lib/options.js';
 
 const options = processOptions();
 const formatter = new Formatter(options);
