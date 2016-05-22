@@ -1,13 +1,13 @@
 #!/usr/bin/env ./node_modules/.bin/babel-node
 'use strict';
 
-import Benchmark from './lib/benchmark.js';
-import Formatter from './lib/formatter.js';
+import Benchmarks from './lib/benchmarks.js';
+import Printer from './lib/printer.js';
 import processOptions from './lib/options.js';
 
 const options = processOptions();
-const formatter = new Formatter(options);
-const benchmark = new Benchmark(options);
+const printer = new Printer(options);
+const benchmark = new Benchmarks(options);
 
 function handleException(reason) {
   console.log(`Exception: ${reason}`);
@@ -15,7 +15,7 @@ function handleException(reason) {
 }
 
 function handleSuccess(stopwatch) {
-  formatter.print(stopwatch);
+  printer.print(stopwatch);
   process.exit(0);  
 }
 
