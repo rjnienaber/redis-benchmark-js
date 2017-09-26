@@ -1,6 +1,6 @@
 const assert = require('chai').assert;
 const expect = require('chai').expect;
-import convertToBuffer from '../lib/convert_to_buffer.js';
+const convertToBuffer = require('../lib/convert_to_buffer.js');
 
 describe('convertToBuffer', () => {
   it('only accepts strings or arrays', () => {

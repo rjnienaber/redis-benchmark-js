@@ -1,25 +1,10 @@
-#!/usr/bin/env ./node_modules/.bin/babel-node
-'use strict';
-
-import Benchmarks from './lib/benchmarks.js';
-import Printer from './lib/printer.js';
-import processOptions from './lib/options.js';
+const Benchmarks = require('./lib/benchmarks.js');
+const Printer = require('./lib/printer.js');
+const processOptions = require('./lib/options.js');
 
 const options = processOptions();
 const printer = new Printer(options);
-const benchmark = new Benchmarks(options);
-
-function handleException(reason) {
-  console.log(`Exception: ${reason}`);
-  process.exit(1);
-}
-
-function handleSuccess(stopwatch) {
-  printer.print(stopwatch);
-  process.exit(0);  
-}
-
-benchmark.run(handleSuccess, handleException);
+const benchmarks = new Benchmarks(options);
 
 //wait for key
 process.stdin.on('data', buffer => {
@@ -29,3 +14,18 @@ process.stdin.on('data', buffer => {
     process.exit();
   }
 });
+
+async function main() {
+  try {
+    const benchmark = await benchmarks.run();
+    printer.print(benchmark);
+    process.exit(0)
+  } catch (err) {
+    console.log(`Exception: ${err.stack}`);  
+    process.exit(1)
+  }
+}
+
+main();
+
+

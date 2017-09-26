@@ -1,6 +1,6 @@
 const assert = require('chai').assert;
 const expect = require('chai').expect;
-import ResponseParser from '../lib/response_parser.js';
+const ResponseParser = require('../lib/response_parser.js');
 
 const parser = new ResponseParser();
 
