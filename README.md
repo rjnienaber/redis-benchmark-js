@@ -15,7 +15,7 @@ redis-benchmark reimplemented in pure javascript as a learning exercise.
 ```
 > git clone https://github.com/brendangregg/FlameGraph
 > npm run build
-> perf record -g -F 99 node --perf_basic_prof build/app.js 
+> perf record -g -F 99 node --perf_basic_prof app.js 
 > perf script | ../FlameGraph/stackcollapse-perf.pl > out.perf-folded
 > ../FlameGraph/flamegraph.pl --color=js out.perf-folded > perf-kernel.svg
 ```
